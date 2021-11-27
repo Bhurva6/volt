@@ -1,3 +1,7 @@
+import 'package:energy_saver/screens/AddRoom.dart';
+import 'package:energy_saver/screens/LoginScreen.dart';
+import 'package:energy_saver/screens/SignupScreen.dart';
+import 'package:energy_saver/screens/WelcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'screens/Homescreen.dart';
 
@@ -24,8 +28,14 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: HomeScreen.id,
-      routes: {HomeScreen.id: (context) => HomeScreen()},
+      initialRoute: WelcomeScreen.id,
+      routes: {
+        HomeScreen.id: (context) => HomeScreen(),
+        AddRoom.id: (context) => AddRoom(),
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        SignupScreen.id: (context) => SignupScreen(),
+      },
     );
   }
 }

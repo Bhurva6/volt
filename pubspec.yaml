@@ -26,7 +26,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_vector_icons: ^1.0.0
   font_awesome_flutter: ^9.2.0
+  google_fonts: ^2.1.0
+  http: ^0.13.3
   syncfusion_flutter_charts: ^19.3.55
 
 dev_dependencies:
