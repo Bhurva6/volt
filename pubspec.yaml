@@ -30,6 +30,7 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   google_fonts: ^2.1.0
   http: ^0.13.3
+  provider: ^6.0.1
   syncfusion_flutter_charts: ^19.3.55
 
 dev_dependencies:

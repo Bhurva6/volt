@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:energy_saver/screens/Homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,21 +15,23 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  void signup(String name, String email, String password, int phoneNo) async {
-    Map<String, String> headerMap = {'Content-Type': 'application/json'};
-    var url = Uri.parse(
-        'https://voltbackend.herokuapp.com/dj-rest-auth/registration/');
-    var response = await http.post(url, headers: headerMap, body: {
-      'Username': name,
-      "Email": email,
-      "Password1": password,
-      "Password2": password,
-      "Phone number": phoneNo,
-    });
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    print(await http.read(Uri.parse('https://example.com/foobar.txt')));
+  void signup(
+      String name, String email, String password, String phoneNo) async {
+    // Map<String, String> headerMap = {'Content-Type': 'application/json'};
+    // Map<String, String> bodyMap = {
+    //   'username': name,
+    //   "email": email,
+    //   "password1": password,
+    //   "password2": password,
+    //   "phone_number": phoneNo,
+    // };
+    // var url = Uri.parse(
+    //     'https://voltbackend.herokuapp.com/dj-rest-auth/registration/');
+    // var response =
+    //     await http.post(url, headers: headerMap, body: jsonEncode(bodyMap));
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
+    Navigator.pushNamed(context, HomeScreen.id);
   }
 
   final emailController = TextEditingController();
@@ -242,12 +247,8 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  print("${emailController.text},${passwordController.text}");
-                  signup(
-                      nameController.text,
-                      emailController.text,
-                      passwordController.text,
-                      int.parse(phoneNoController.text));
+                  signup(nameController.text, emailController.text,
+                      passwordController.text, phoneNoController.text);
                 },
                 child: Padding(
                   padding:

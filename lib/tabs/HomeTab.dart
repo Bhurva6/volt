@@ -1,6 +1,8 @@
+import 'package:energy_saver/dataProviders/AppData.dart';
 import 'package:energy_saver/models/DailyEnergy.dart';
 import 'package:energy_saver/models/Room.dart';
 import 'package:energy_saver/screens/AddRoom.dart';
+import 'package:energy_saver/screens/RoomScreen.dart';
 import 'package:energy_saver/widgets/AlertWidget.dart';
 import 'package:energy_saver/widgets/RoomIcon.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:energy_saver/widgets/CustomBadge.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
@@ -20,18 +23,17 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   late List<DailyEnergyData> _chartData;
-  late List<Room> _roomData;
   @override
   void initState() {
     _chartData = getDailyData();
-    _roomData = getRoomData();
+    Provider.of<AppData>(context, listen: false).updateRoomList(getRoomData());
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    _roomData = getRoomData();
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -169,16 +171,36 @@ class _HomeTabState extends State<HomeTab> {
               Flexible(
                 child: Container(
                   child: GridView.builder(
+                      shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _roomData.length,
+                      itemCount: Provider.of<AppData>(context, listen: false)
+                          .roomlist!
+                          .length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
                       itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          margin: EdgeInsets.all(10),
-                          child: RoomIcon(
-                            iconData: _roomData[index].icon,
-                            title: _roomData[index].title,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => (RoomScreen(
+                                        roomdata: Provider.of<AppData>(context,
+                                                listen: false)
+                                            .roomlist![index]))));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(10),
+                            child: RoomIcon(
+                              iconData:
+                                  Provider.of<AppData>(context, listen: false)
+                                      .roomlist![index]
+                                      .icon,
+                              title:
+                                  Provider.of<AppData>(context, listen: false)
+                                      .roomlist![index]
+                                      .title,
+                            ),
                           ),
                         );
                       }),
@@ -208,7 +230,11 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 80,
               )
+
               // Row(
               //   children: [
               //     RoomIcon(
@@ -226,11 +252,11 @@ class _HomeTabState extends State<HomeTab> {
 
   List<DailyEnergyData> getDailyData() {
     List<DailyEnergyData> dailyData = [
-      DailyEnergyData(time: '00:00hrs', power: 3000),
-      DailyEnergyData(time: '05:00hrs', power: 1000),
-      DailyEnergyData(time: '10:00hrs', power: 1500),
-      DailyEnergyData(time: '15:00hrs', power: 900),
-      DailyEnergyData(time: '20:00hrs', power: 3100),
+      DailyEnergyData(time: '00:00hrs', power: 2.5),
+      DailyEnergyData(time: '05:00hrs', power: 2.1),
+      DailyEnergyData(time: '10:00hrs', power: 1.6),
+      DailyEnergyData(time: '15:00hrs', power: 0.9),
+      DailyEnergyData(time: '20:00hrs', power: 3.1),
     ];
     return dailyData;
   }
